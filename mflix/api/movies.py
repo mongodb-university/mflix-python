@@ -159,7 +159,7 @@ def api_search_movies_faceted():
 
 
 @movies_api_v1.route('/comment', methods=["POST"])
-@jwt_required
+@jwt_required()
 def api_post_comment():
     """
     Posts a comment about a specific movie. Validates the user is logged in by
@@ -179,7 +179,7 @@ def api_post_comment():
 
 
 @movies_api_v1.route('/comment', methods=["PUT"])
-@jwt_required
+@jwt_required()
 def api_update_comment():
     """
     Updates a user comment. Validates the user is logged in by ensuring a
@@ -205,7 +205,7 @@ def api_update_comment():
 
 
 @movies_api_v1.route('/comment', methods=["DELETE"])
-@jwt_required
+@jwt_required()
 def api_delete_comment():
     """
     Delete a comment. Requires a valid JWT
