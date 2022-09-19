@@ -168,7 +168,7 @@ def login():
 
 
 @user_api_v1.route('/update-preferences', methods=['PUT'])
-@jwt_required
+@jwt_required()
 def save():
     claims = get_jwt()
     user = User.from_claims(claims)
@@ -194,7 +194,7 @@ def save():
 
 
 @user_api_v1.route('/logout', methods=['POST'])
-@jwt_required
+@jwt_required()
 def logout():
     claims = get_jwt()
     user = User.from_claims(claims)
@@ -239,7 +239,7 @@ def delete():
 
 
 @user_api_v1.route('/admin', methods=['GET'])
-@jwt_required
+@jwt_required()
 def is_admin():
     claims = get_jwt()
     user = User.from_claims(claims)
@@ -254,7 +254,7 @@ def is_admin():
 
 
 @user_api_v1.route('/comment-report', methods=['GET'])
-@jwt_required
+@jwt_required()
 def comment_report():
     claims = get_jwt()
     user = User.from_claims(claims)
