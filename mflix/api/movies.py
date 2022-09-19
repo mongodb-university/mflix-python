@@ -5,7 +5,7 @@ from mflix.db import get_movie, get_movies, get_movies_by_country, \
 
 from flask_cors import CORS
 from flask_jwt_extended import (
-    jwt_required, get_jwt_claims
+    jwt_required, get_jwt
 )
 from mflix.api.user import User
 from mflix.api.utils import expect
@@ -165,7 +165,7 @@ def api_post_comment():
     Posts a comment about a specific movie. Validates the user is logged in by
     ensuring a valid JWT is provided
     """
-    claims = get_jwt_claims()
+    claims = get_jwt()
     user = User.from_claims(claims)
     post_data = request.get_json()
     try:
@@ -210,7 +210,7 @@ def api_delete_comment():
     """
     Delete a comment. Requires a valid JWT
     """
-    claims = get_jwt_claims()
+    claims = get_jwt()
     user_email = User.from_claims(claims).email
     post_data = request.get_json()
     try:
