@@ -37,7 +37,7 @@ def create_app():
     app.register_blueprint(user_api_v1)
     jwt = JWTManager(app)
 
-    @jwt.user_claims_loader
+    @jwt.additional_claims_loader
     def add_claims(identity):
         return {
             'user': identity,

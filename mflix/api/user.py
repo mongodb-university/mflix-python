@@ -6,7 +6,7 @@ from bson.json_util import dumps, loads
 
 from flask_jwt_extended import (
     jwt_required, create_access_token,
-    get_jwt_claims
+    get_jwt
 )
 
 from flask_cors import CORS
@@ -20,15 +20,6 @@ def get_bcrypt():
     if bcrypt is None:
         bcrypt = g._bcrypt = current_app.config['BCRYPT']
     return bcrypt
-
-
-def get_jwt():
-    jwt = getattr(g, '_jwt', None)
-    if jwt is None:
-        jwt = g._jwt = current_app.config['JWT']
-
-    return jwt
-
 
 def init_claims_loader():
     add_claims = getattr(g, '_add_claims', None)
@@ -177,9 +168,9 @@ def login():
 
 
 @user_api_v1.route('/update-preferences', methods=['PUT'])
-@jwt_required
+@jwt_required()
 def save():
-    claims = get_jwt_claims()
+    claims = get_jwt()
     user = User.from_claims(claims)
     body = request.get_json()
     prefs = expect(body.get('preferences'), dict, 'preferences')
@@ -203,9 +194,9 @@ def save():
 
 
 @user_api_v1.route('/logout', methods=['POST'])
-@jwt_required
+@jwt_required()
 def logout():
-    claims = get_jwt_claims()
+    claims = get_jwt()
     user = User.from_claims(claims)
     try:
         logout_user(user.email)
@@ -223,7 +214,7 @@ def logout():
 @user_api_v1.route('/delete', methods=['DELETE'])
 @jwt_required
 def delete():
-    claims = get_jwt_claims()
+    claims = get_jwt()
     user = User.from_claims(claims)
     try:
         password = expect(request.get_json().get('password'), str, 'password')
@@ -248,9 +239,9 @@ def delete():
 
 
 @user_api_v1.route('/admin', methods=['GET'])
-@jwt_required
+@jwt_required()
 def is_admin():
-    claims = get_jwt_claims()
+    claims = get_jwt()
     user = User.from_claims(claims)
     try:
         if check_admin(user):
@@ -263,9 +254,9 @@ def is_admin():
 
 
 @user_api_v1.route('/comment-report', methods=['GET'])
-@jwt_required
+@jwt_required()
 def comment_report():
-    claims = get_jwt_claims()
+    claims = get_jwt()
     user = User.from_claims(claims)
     try:
         if check_admin(user):

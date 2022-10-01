@@ -560,6 +560,6 @@ def get_configuration():
     try:
         role_info = db.command({'connectionStatus': 1}).get('authInfo').get(
             'authenticatedUserRoles')[0]
-        return (db.client.max_pool_size, db.client.write_concern, role_info)
+        return db.client.options.pool_options.max_pool_size, db.client.write_concern, role_info
     except IndexError:
-        return (db.client.max_pool_size, db.client.write_concern, {})
+        return db.client.options.pool_options.max_pool_size, db.client.write_concern, {}
